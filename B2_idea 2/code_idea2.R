@@ -28,6 +28,11 @@ summary(regr_xm)
 regr_my<-lm(mean_wtp ~ relative_rank_1, survey_tidy)
 summary(regr_my)
 
+#total effect
+regr_all<-lm(mean_wtp ~ private_v_premium, survey_tidy)
+summary(regr_all)
+
+
 #effect of X+M+ M*X on Y
 regr_total<- lm(mean_wtp ~ private_v_premium + relative_rank_1 + private_v_premium*relative_rank_1 , survey_tidy)
 summary(regr_total)
