@@ -4,6 +4,9 @@ library(tidyr)
 library(effectsize)
 library(emmeans)
 library(car)
+library(ggplot2)
+library(ggfortify)
+library(broom)
 
 #Load data
 df <- read_sav("Exp+Res+2022+Idea+3+Manipulate+&+loyalty_May+9,+2022_14.59.sav")
@@ -23,8 +26,16 @@ df_analyse <- df %>%
 shapiro.test(df_analyse$loyalty_mean)
 
 #Effect of rank and NFU on loyalty
-regression_1 <- lm(loyalty_mean ~ NFU_mean * relative_rank_1 + treatment, data = df_analyse) 
+regression_1 <- lm(loyalty_mean ~ NFU_mean * relative_rank_1, data = df_analyse) 
 summary(regression_1)
+
+#Evaluate model assumptions of the regression
+autoplot(
+  regression_1,
+  which = 1:3,
+  nrow = 1,
+  ncol = 3
+)
 
 #Anova treatment
 anova_1 <- aov(loyalty_mean ~ NFU_mean * treatment, data = df_analyse)
@@ -37,4 +48,6 @@ eta_squared(anova_1)
 #Differences in effect treatment
 post_hoc <- emmeans(anova_1, pairwise ~ treatment, adjust="bonferroni")
 summary(post_hoc)
+
+
 
