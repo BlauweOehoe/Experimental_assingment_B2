@@ -21,7 +21,9 @@ survey_tidy<-survey_clean %>%
   select(ResponseId,
          private_v_premium,
          relative_rank_1,
-         mean_wtp
+         mean_wtp,
+         Age,
+         gender
          )
 
 #descriptive statistics
@@ -30,9 +32,13 @@ descriptive_stat <- survey_clean %>%
   summarize_all(mean, na.rm = TRUE)
 
 ##regression model
+
 #effect of X on Mediator
 regr_xm<-lm(relative_rank_1 ~ private_v_premium, survey_tidy)
 summary(regr_xm)
+# effect of X on Mediator adding Age
+regr_xm1<-lm(relative_rank_1 ~ private_v_premium + Age, survey_tidy)
+summary(regr_xm1)
 
 #effect of Mediator on Y
 regr_my<-lm(mean_wtp ~ relative_rank_1, survey_tidy)
