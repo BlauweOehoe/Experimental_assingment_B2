@@ -46,7 +46,7 @@ summary(regr_xm)
 
 #effect of X on Mediator adding age
 regr_xma<-lm(relative_rank_1 ~ private_v_premium + Age, survey_tidy)
-summary(regr_xm)
+summary(regr_xma)
 
 ##H2
 #effect of Mediator on Y
@@ -95,14 +95,4 @@ autoplot(
   ncol = 3
 )
 
-##ANOVA & Post-Hoc
-#Anova treatment
-anova_1 <- aov(mean_wtp ~ private_v_premium + relative_rank_1 + Age, survey_tidy)
-summary(anova_1)
 
-#Eta squared
-eta_squared(anova_1)
-
-#Differences in effect treatment
-post_hoc <- emmeans(anova_1, pairwise ~ private_v_premium, adjust="bonferroni")
-summary(post_hoc)
