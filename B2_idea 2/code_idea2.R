@@ -19,8 +19,8 @@ survey_clean<-survey_df %>%
   mutate(private_v_premium = replace_na(Main_Block_DO_buy_private, 0)) %>% 
   mutate(mean_wtp = (WTP_others - WTP_self)) %>% 
   filter(mean_wtp >= -1) %>% 
-  filter(mean_wtp <= 1)
-
+  filter(mean_wtp <= 1) %>% 
+  filter(Age <=100)
   
 #keeping only relevant data
 survey_tidy<-survey_clean %>% 
@@ -41,7 +41,7 @@ descriptive_stat <- survey_tidy %>%
 
 ##H1
 #effect of X on Mediator
-regr_xm<-lm(relative_rank_1 ~ private_v_premium, survey_tidy)
+regr_xm <- lm(relative_rank_1 ~ private_v_premium, survey_tidy)
 summary(regr_xm)
 
 #effect of X on Mediator adding age
@@ -59,7 +59,7 @@ summary(regr_full)
 
 ##Testing assumptions
 
-#Normality
+#Normality of Y
 ggplot(survey_tidy, aes(mean_wtp))+geom_histogram(bins = 50)
 shapiro.test(survey_tidy$mean_wtp)
 
@@ -79,7 +79,7 @@ autoplot(
   ncol = 3
 )
 
-#evaluate model of X on M adding age
+#evaluate model assumptions of H1 X-->M + age
 autoplot(
   regr_xma,
   which = 1:3,
