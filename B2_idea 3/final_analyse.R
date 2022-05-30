@@ -7,6 +7,7 @@ library(car)
 library(ggplot2)
 library(ggfortify)
 library(broom)
+library(modelsummary)
 
 #Load data
 df <- read_sav("Exp+Res+2022+Idea+3+Manipulate+&+loyalty_May+9,+2022_14.59.sav")
@@ -38,4 +39,9 @@ autoplot(
   ncol = 3
 )
 
-
+#plotting regression
+msummary(regression_1,
+         statistic = "p.value",
+         coef_omit = "Interc",
+         gof_omit = "AIC|BIC|Log|Pseudo|F"
+)
